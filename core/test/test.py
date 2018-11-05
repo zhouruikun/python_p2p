@@ -1,20 +1,14 @@
-#导入该模块
-import socketserver
+import socket
+tcp1 = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+tcp2 = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+#在绑定前调用setsockopt让套接字允许地址重用
+tcp1.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
+tcp2.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
 
-#定义一个类，继承socketserver.BaseRequestHandler
-class Server(socketserver.BaseRequestHandler):
-    def handle(self):
-    #打印客户端地址和端口
-        print('New connection:',self.client_address)
-    #循环
-        while True:
-        #接收客户发送的数据
-            data = self.request.recv(1024)
-            if not data:break#如果接收数据为空就跳出，否则打印
-            print('Client data:',data.decode())
-            self.request.send(data)#将收到的信息再发送给客户端
-
-if __name__ == '__main__':
-    host,port = ('',3333)  #定义服务器地址和端口
-    server = socketserver.ThreadingTCPServer((host,port),Server) #实现了多线程的socket通话
-    server.serve_forever()#不会出现在一个客户端结束后，当前服务器端就会关闭或者报错，而是继续运行，与其他的客户端继续进行通话。
+tcp2.setsockopt(socket.SOL_SOCKET, socket.SO_LINGER, 1)
+#接下来两个套接字都也可以绑定到同一个端口上
+# tcp1.bind(('', 12345))
+tcp2.bind(('', 3333))
+# tcp2.connect(('106.14.226.150', 1234))
+tcp2.connect(('192.168.0.106', 1234))
+tcp2.close()

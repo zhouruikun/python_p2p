@@ -34,9 +34,7 @@ class P2pServerUiThread(QWidget, Ui_Server):
         self.tableWidget.setRowCount(0)
         print("ConnectionList %s" % str(ConnectionList))
         for item in ConnectionList.values():
-
             row_count = self.tableWidget.rowCount()
-            print("add %d" % row_count)
             self.tableWidget.insertRow(row_count)
             self.tableWidget.setItem(row_count, 0, QTableWidgetItem(str(item['ip'])))
             self.tableWidget.setItem(row_count, 1, QTableWidgetItem(str(item['UID'])))
