@@ -104,13 +104,12 @@ class P2pClientSocketThread(P2pClientUiThread):
                 if 'query_conn' in rec_data:
                     server_address = rec_data['query_conn']['ip']
                     print("get query_conn  " + str(server_address) + " start listen ")
-                    self.client_socket_p2p.connect(server_address)
                     self.client_listen_thread_handle = threading.Thread(
                         target=P2pClientSocketThread.client_listen_thread, args=(self,),
                         name='client_listen_thread_handle')
                     self.client_listen_thread_handle.setDaemon(True)
                     self.client_listen_thread_handle.start()
-
+                    self.client_socket_p2p.connect(server_address)
 
             except Exception as error:
                  pass
