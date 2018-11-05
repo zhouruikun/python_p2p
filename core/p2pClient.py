@@ -94,20 +94,24 @@ class P2pClientSocketThread(P2pClientUiThread):
                 if ack:
                     rec_data = eval(ack)
                 if 'ip' in rec_data:
-                    print("get ip  start connect to dest ")
                     server_address = rec_data['ip']
+                    print("get ip " + str(server_address)+" start connect to dest ")
                     try:
                         self.client_socket_p2p.connect(server_address)
                         print('connect to dest success')
                     except Exception as error:
                         print('connect to dest fail')
                 if 'query_conn' in rec_data:
+                    server_address = rec_data['query_conn']['ip']
+                    print("get query_conn  " + str(server_address) + " start listen ")
+                    self.client_socket_p2p.connect(server_address)
                     self.client_listen_thread_handle = threading.Thread(
                         target=P2pClientSocketThread.client_listen_thread, args=(self,),
                         name='client_listen_thread_handle')
                     self.client_listen_thread_handle.setDaemon(True)
                     self.client_listen_thread_handle.start()
-                    print("get query_conn start listen ")
+
+
             except Exception as error:
                  pass
 

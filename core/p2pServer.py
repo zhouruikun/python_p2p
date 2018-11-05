@@ -83,7 +83,7 @@ class MyRequestHandler(SRH):
                         ack_get_ip_pack = str(ConnectionList[rec_data['dest']])
                         self.wfile.write(ack_get_ip_pack.encode("UTF-8"))
                         notify_dest_pack = {}
-                        notify_dest_pack['query_conn'] = ConnectionList[rec_data['dest']]
+                        notify_dest_pack['query_conn'] = ConnectionList[self.UID]
                         client_socket[rec_data['dest']].sendall(str(notify_dest_pack).encode())
                     else:
                         self.wfile.write(('[%s] %s' % (ctime(), "No Client\r\n")).encode("UTF-8"))
