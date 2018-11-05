@@ -70,9 +70,9 @@ class MyRequestHandler(SRH):
         self.UID = str(uuid.uuid1())
         print('已经连接:', self.client_address)
         ConnectionCount = ConnectionCount+1
-        p2p_server_ui_thread.NewConnectionSignal.emit(ConnectionCount)
         ConnectionList[self.UID] = {'ip': self.client_address, 'UID': self.UID, 'Status': '0', 'Conn': '0'}
         client_socket[self.UID] = self.request
+        p2p_server_ui_thread.NewConnectionSignal.emit(ConnectionCount)
         while True:
             try:
                 row_data = self.rfile.readline().decode("UTF-8")
